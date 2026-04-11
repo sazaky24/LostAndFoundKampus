@@ -2,10 +2,8 @@ package com.example.lostandfoundkampus;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,24 +12,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Memindahkan variabel ke dalam onCreate menyelesaikan warning kuning
-        RecyclerView rvBarang = findViewById(R.id.rv_barang);
-        rvBarang.setLayoutManager(new LinearLayoutManager(this));
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        List<Barang> barangList = new ArrayList<>();
-        barangList.add(new Barang("Dompet Kulit Coklat", "Dokumen", "Gedung Fakultas Teknik", "2 jam yang lalu", false));
-        barangList.add(new Barang("Smartphone Samsung Galaxy", "Elektronik", "Perpustakaan Pusat", "5 jam yang lalu", false));
-        barangList.add(new Barang("Kunci Motor Honda", "Kunci", "Parkiran Gedung B", "1 hari yang lalu", true));
-        barangList.add(new Barang("Tas Ransel Hitam", "Lainnya", "Kantin Kampus", "2 hari yang lalu", false));
+        // Menetapkan halaman Home sebagai halaman pertama saat aplikasi dibuka
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment()).commit();
+        }
 
-        BarangAdapter barangAdapter = new BarangAdapter(barangList);
-        rvBarang.setAdapter(barangAdapter);
+        // Menggunakan "Lambda" ( -> ) sesuai saran Android Studio agar kode lebih ringkas
+        bottomNav.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                selectedFragment = new HomeFragment();
+            } else if (itemId == R.id.nav_profil) {
+                selectedFragment = new ProfilFragment();
+            }
+            // Blok if untuk nav_lapor dan nav_nemu dihapus sementara agar tidak ada warning "empty body"
+
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, selectedFragment).commit();
+            }
+            return true;
+        });
     }
 
-    // Model Class untuk struktur data
+    // Model Class dibiarkan tetap di sini
     public static class Barang {
-        String nama, kategori, lokasi, waktu;
-        boolean isSelesai;
+        public String nama, kategori, lokasi, waktu;
+        public boolean isSelesai;
 
         public Barang(String nama, String kategori, String lokasi, String waktu, boolean isSelesai) {
             this.nama = nama;
