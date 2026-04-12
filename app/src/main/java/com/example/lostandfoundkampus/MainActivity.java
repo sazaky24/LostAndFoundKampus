@@ -27,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
+            } else if (itemId == R.id.nav_lapor) {
+                selectedFragment = new LaporFragment();
             } else if (itemId == R.id.nav_profil) {
                 selectedFragment = new ProfilFragment();
             }
-            // Blok if untuk nav_lapor dan nav_nemu dihapus sementara agar tidak ada warning "empty body"
 
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()

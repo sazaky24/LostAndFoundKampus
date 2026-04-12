@@ -9,10 +9,6 @@
         android:icon="@android:drawable/ic_menu_send"
         android:title="Lapor" />
     <item
-        android:id="@+id/nav_nemu"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="Nemu" />
-    <item
         android:id="@+id/nav_profil"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="Profil" />
