@@ -160,7 +160,6 @@ public class LaporFragment extends Fragment {
     private void kirimDataKeDatabase(String nama, String lokasi, String statusTerpilih, String fotoUrl, Button btnSubmit) {
         Laporan laporanBaru = new Laporan();
         laporanBaru.nama_barang = nama;
-        laporanBaru.kategori = "Lainnya";
         laporanBaru.lokasi = lokasi;
         laporanBaru.status = statusTerpilih; // Memasukkan data dinamis dari RadioButton
         laporanBaru.foto_url = fotoUrl;
@@ -177,7 +176,7 @@ public class LaporFragment extends Fragment {
                     imgPreview.setImageResource(android.R.drawable.ic_menu_camera);
                     imageBytes = null;
                 } else {
-                    Toast.makeText(getContext(), "Gagal menyimpan laporan ke database", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Gagal: Kode Error " + response.code(), Toast.LENGTH_LONG).show();
                 }
                 resetTombol(btnSubmit);
             }

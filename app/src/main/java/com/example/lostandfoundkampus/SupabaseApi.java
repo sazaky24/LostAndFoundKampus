@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface SupabaseApi {
     // [KODE LAMA] Mengambil semua laporan
-    @GET("rest/v1/laporan?select=*")
+    @GET("rest/v1/laporan?select=*&order=created_at.desc")
     Call<List<Laporan>> getSemuaLaporan(
             @Header("apikey") String apiKey,
             @Header("Authorization") String authToken

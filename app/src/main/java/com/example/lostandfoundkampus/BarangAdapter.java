@@ -12,10 +12,10 @@ import java.util.List;
 
 public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangViewHolder> {
 
-    private final List<MainActivity.Barang> barangList;
+    private final List<Laporan> laporanList;
 
-    public BarangAdapter(List<MainActivity.Barang> barangList) {
-        this.barangList = barangList;
+    public BarangAdapter(List<Laporan> laporanList) {
+        this.laporanList = laporanList;
     }
 
     @NonNull
@@ -29,14 +29,15 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BarangViewHolder holder, int position) {
-        MainActivity.Barang barang = barangList.get(position);
+        Laporan laporan = laporanList.get(position);
 
-        holder.tvNama.setText(barang.nama);
-        holder.tvKategori.setText(barang.kategori);
-        holder.tvLokasiWaktu.setText(barang.lokasi + " • " + barang.waktu);
+        holder.tvNama.setText(laporan.nama_barang);
+        holder.tvKategori.setText(laporan.status);
+        holder.tvLokasiWaktu.setText(laporan.lokasi + " • " + laporan.created_at);
 
         // Menentukan icon silang merah (hilang) atau centang hijau (ketemu)
-        if (barang.isSelesai) {
+        // Berdasarkan status dari Supabase
+        if ("Temuan".equalsIgnoreCase(laporan.status)) {
             holder.imgStatus.setImageResource(android.R.drawable.checkbox_on_background);
         } else {
             holder.imgStatus.setImageResource(android.R.drawable.ic_delete);
@@ -45,7 +46,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
 
     @Override
     public int getItemCount() {
-        return barangList.size();
+        return laporanList.size();
     }
 
     // Menambahkan 'public' untuk memperbaiki warning visibility scope
