@@ -1,13 +1,16 @@
 package com.example.lostandfoundkampus;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangViewHolder> {
@@ -25,7 +28,6 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         return new BarangViewHolder(view);
     }
 
-    // Menambahkan SuppressLint untuk menghilangkan warning penggabungan teks
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BarangViewHolder holder, int position) {
@@ -35,11 +37,14 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         holder.tvKategori.setText(barang.kategori);
         holder.tvLokasiWaktu.setText(barang.lokasi + " • " + barang.waktu);
 
-        // Menentukan icon silang merah (hilang) atau centang hijau (ketemu)
+        holder.imgStatus.setColorFilter(null);
+
         if (barang.isSelesai) {
             holder.imgStatus.setImageResource(android.R.drawable.checkbox_on_background);
+            holder.imgStatus.setColorFilter(Color.parseColor("#66BB6A")); // hijau soft (lebih enak dilihat)
         } else {
-            holder.imgStatus.setImageResource(android.R.drawable.ic_delete);
+            holder.imgStatus.setImageResource(android.R.drawable.ic_popup_sync);
+            holder.imgStatus.setColorFilter(Color.parseColor("#FFC107")); // kuning soft
         }
     }
 
@@ -48,7 +53,12 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         return barangList.size();
     }
 
-    // Menambahkan 'public' untuk memperbaiki warning visibility scope
+    public void updateData(List<MainActivity.Barang> newList) {
+        barangList.clear();
+        barangList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     public static class BarangViewHolder extends RecyclerView.ViewHolder {
         TextView tvNama, tvKategori, tvLokasiWaktu;
         ImageView imgStatus;

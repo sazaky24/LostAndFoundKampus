@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Foto -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Foto Barang (Opsional)"
+            android:textStyle="bold"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:text="Tambah Foto"
+            android:layout_marginTop="8dp"/>
+
+
+        <!-- Nama Barang -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Barang *"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_nama_barang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contoh: Dompet kulit coklat"/>
+
+
+        <!-- Kategori -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategori *"
+            android:layout_marginTop="16dp"/>
+
+        <Spinner
+            android:id="@+id/sp_kategori"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <!-- Lokasi -->
+        <TextView
+            android:id="@+id/tv_lokasi_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lokasi Terakhir Terlihat *"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_lokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contoh: Gedung Fakultas Teknik"/>
+
+
+        <!-- Tanggal -->
+        <TextView
+            android:id="@+id/tv_tanggal_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tanggal Kehilangan *"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_tanggal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="mm/dd/yyyy"/>
+
+
+        <!-- Deskripsi -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Tambahan"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/et_deskripsi"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="Ceritakan ciri-ciri barang..."
+            android:gravity="top"/>
+
+
+        <!-- STATUS BARANG (dipindah ke bawah) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status Barang"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_hilang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Barang Hilang"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/rb_ditemukan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Barang Ditemukan"
+                android:layout_marginStart="16dp"/>
+
+        </RadioGroup>
+
+
+        <!-- Tombol -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/btn_batal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Batal"/>
+
+            <Button
+                android:id="@+id/btn_kirim"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kirim Laporan"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

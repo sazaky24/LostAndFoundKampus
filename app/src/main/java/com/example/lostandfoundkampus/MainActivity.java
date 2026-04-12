@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, new HomeFragment()).commit();
         }
 
-        // Menggunakan "Lambda" ( -> ) sesuai saran Android Studio agar kode lebih ringkas
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
@@ -29,14 +28,17 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
             } else if (itemId == R.id.nav_profil) {
                 selectedFragment = new ProfilFragment();
+            } else if (itemId == R.id.nav_lapor) {
+                selectedFragment = new LaporFragment();
             }
-            // Blok if untuk nav_lapor dan nav_nemu dihapus sementara agar tidak ada warning "empty body"
 
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment).commit();
+                        .replace(R.id.fragment_container, selectedFragment)
+                        .commit();
+                return true;
             }
-            return true;
+            return false;
         });
     }
 

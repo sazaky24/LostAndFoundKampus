@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@color/bg_light">
 
     <LinearLayout
@@ -39,19 +40,20 @@
 
             <EditText
                 android:id="@+id/et_search"
-                android:inputType="text"
-                android:importantForAutofill="no"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/bg_search_white"
                 android:drawableStart="@android:drawable/ic_menu_search"
                 android:drawablePadding="10dp"
                 android:hint="@string/cari_barang_hilang"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
-                app:layout_editor_absoluteX="20dp" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -62,57 +64,101 @@
             app:cardElevation="4dp">
 
             <LinearLayout
-                android:baselineAligned="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp"
-                tools:ignore="UselessLeaf">
+                android:baselineAligned="false">
 
                 <LinearLayout
+                    android:id="@+id/layout_total"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/_24" android:textColor="@color/primary_blue" android:textSize="20sp" android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/total_laporan" android:textSize="12sp"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="24"
+                        android:textColor="@color/primary_blue"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Laporan"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/layout_berhasil"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/_18" android:textColor="#4CAF50" android:textSize="20sp" android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/berhasil" android:textSize="12sp"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18"
+                        android:textColor="#4CAF50"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Berhasil"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/layout_proses"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/_6" android:textColor="#FF9800" android:textSize="20sp" android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/proses" android:textSize="12sp"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6"
+                        android:textColor="#FF9800"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Proses"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,13 +181,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/_4_hasil"
                 android:textColor="@color/text_grey" />
+
         </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_barang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
 
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>
