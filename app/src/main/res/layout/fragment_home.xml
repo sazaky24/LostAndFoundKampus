@@ -4,71 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light">
+    android:background="#F4F5F9">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- HEADER SECTION -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary_blue"
-            android:padding="20dp">
+            android:background="#3D5AFE"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="42dp">
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lost_amp_found"
+                android:text="Lost &amp; Found"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/unm_kampus"
+                android:layout_marginTop="4dp"
+                android:text="Temukan kembali barang berhargamu"
                 android:textColor="#E0E0E0"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-            <EditText
-                android:id="@+id/et_search"
-                android:inputType="text"
-                android:importantForAutofill="no"
+            <!-- SEARCH BAR DIBUNGKUS CARDVIEW BIAR MENGAMBANG -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_search_white"
-                android:drawableStart="@android:drawable/ic_menu_search"
-                android:drawablePadding="10dp"
-                android:hint="@string/cari_barang_hilang"
-                android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
-                app:layout_editor_absoluteX="20dp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="4dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@android:drawable/ic_menu_search"
+                    android:drawablePadding="12dp"
+                    android:hint="Cari dompet, kunci, KTM..."
+                    android:textSize="14sp"
+                    android:paddingHorizontal="20dp" />
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- STATS CARD -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="-24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:baselineAligned="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp"
+                android:paddingVertical="16dp"
                 tools:ignore="UselessLeaf">
 
+                <!-- KOLOM 1 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_total"
                     android:layout_width="0dp"
@@ -81,28 +100,37 @@
                     android:background="?attr/selectableItemBackground"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        app:tint="#3D5AFE"
+                        android:layout_marginBottom="4dp"/>
+
                     <TextView
                         android:id="@+id/tv_angka_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/_24"
-                        android:textColor="@color/primary_blue"
-                        android:textSize="20sp"
+                        android:text="24"
+                        android:textColor="#3D5AFE"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_laporan"
+                        android:text="Semua"
+                        android:textColor="#757575"
                         android:textSize="12sp"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:background="#EEEEEE"
+                    android:layout_marginVertical="8dp"/>
 
+                <!-- KOLOM 2 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_berhasil"
                     android:layout_width="0dp"
@@ -115,28 +143,37 @@
                     android:background="?attr/selectableItemBackground"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/checkbox_on_background"
+                        app:tint="#4CAF50"
+                        android:layout_marginBottom="4dp"/>
+
                     <TextView
                         android:id="@+id/tv_angka_berhasil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/_18"
+                        android:text="18"
                         android:textColor="#4CAF50"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/berhasil"
+                        android:text="Ditemukan"
+                        android:textColor="#757575"
                         android:textSize="12sp"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#E0E0E0"
-                    android:layout_marginVertical="4dp"/>
+                    android:background="#EEEEEE"
+                    android:layout_marginVertical="8dp"/>
 
+                <!-- KOLOM 3 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_proses"
                     android:layout_width="0dp"
@@ -149,52 +186,59 @@
                     android:background="?attr/selectableItemBackground"
                     android:padding="8dp">
 
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        app:tint="#FF9800"
+                        android:layout_marginBottom="4dp"/>
+
                     <TextView
                         android:id="@+id/tv_angka_proses"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/_6"
+                        android:text="6"
                         android:textColor="#FF9800"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/proses"
+                        android:text="Dicari"
+                        android:textColor="#757575"
                         android:textSize="12sp"/>
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- LIST SECTION -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="16dp">
+            android:paddingHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/barang_terbaru"
-                android:textColor="@color/text_dark"
-                android:textSize="16sp"
+                android:text="Barang Terbaru"
+                android:textColor="#212121"
+                android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_4_hasil"
-                android:textColor="@color/text_grey" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_barang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"
             android:nestedScrollingEnabled="false" />
 
     </LinearLayout>

@@ -42,6 +42,21 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         } else {
             holder.imgStatus.setImageResource(android.R.drawable.ic_delete);
         }
+        // Aksi ketika kotak item barang diklik
+        holder.itemView.setOnClickListener(v -> {
+            // Membuat jembatan (Intent) untuk pindah ke DetailActivity
+            android.content.Intent intent = new android.content.Intent(v.getContext(), DetailActivity.class);
+
+            // Membawa data barang ini ke halaman sebelah
+            intent.putExtra("NAMA", laporan.nama_barang);
+            intent.putExtra("LOKASI", laporan.lokasi);
+            intent.putExtra("STATUS", laporan.status);
+            intent.putExtra("TANGGAL", laporan.created_at);
+            intent.putExtra("FOTO", laporan.foto_url);
+
+            // Berangkat!
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

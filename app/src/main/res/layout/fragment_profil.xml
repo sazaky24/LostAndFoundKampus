@@ -27,6 +27,19 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"/>
 
+            <!-- TOMBOL EDIT BARU -->
+            <Button
+                android:id="@+id/btn_ke_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="Edit"
+                android:textSize="12sp"
+                android:textColor="#3D5AFE"
+                android:backgroundTint="#FFFFFF"
+                app:cornerRadius="8dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +62,8 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Nur Fajriani Burhan"
+                        android:id="@+id/tv_profil_nama"
+                        android:text="Memuat Nama..."
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"
                         android:textSize="20sp"
@@ -57,14 +71,16 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="NIM : 240210500002"
+                        android:id="@+id/tv_profil_nim"
+                        android:text="Memuat NIM..."
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="Fakultas Teknik"
+                        android:id="@+id/tv_profil_fakultas"
+                        android:text="Memuat Fakultas..."
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:layout_width="wrap_content"
@@ -137,8 +153,8 @@
                 android:padding="18dp">
 
                 <TextView android:text="Informasi Kontak" android:textStyle="bold" android:textSize="16sp" android:layout_marginBottom="8dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                <TextView android:text="📧  nurfajrianiriri@gmail.com" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
-                <TextView android:text="📱  0822-39909-331" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
+                <TextView android:text="📧  Akun Email Kampus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
+                <TextView android:text="📱  (Diambil dari Profil)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
                 <TextView android:text="📍  Makassar, Sulawesi Selatan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -165,6 +181,20 @@
                 <TextView android:text="Temuan" android:textColor="#2E7D32" android:textStyle="bold" android:layout_marginTop="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Tombol Log Out -->
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="Keluar Akun"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#D32F2F"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

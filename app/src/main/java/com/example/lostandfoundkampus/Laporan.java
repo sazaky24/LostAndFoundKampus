@@ -1,7 +1,7 @@
 package com.example.lostandfoundkampus;
 
 public class Laporan {
-    public int id;
+    public Integer id;
     public String nama_barang;
     public String lokasi;
     public String status;
