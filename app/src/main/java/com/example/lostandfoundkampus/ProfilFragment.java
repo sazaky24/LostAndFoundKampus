@@ -1,5 +1,6 @@
 package com.example.lostandfoundkampus;
 
+import android.app.AlertDialog; // Tambahan Import untuk Pop-up
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,7 @@ public class ProfilFragment extends Fragment {
         tvNim = view.findViewById(R.id.tv_profil_nim);
         tvFakultas = view.findViewById(R.id.tv_profil_fakultas);
         Button btnLogout = view.findViewById(R.id.btn_logout);
-        Button btnKeEdit = view.findViewById(R.id.btn_ke_edit); // Tombol Edit Baru
+        Button btnKeEdit = view.findViewById(R.id.btn_ke_edit);
 
         // 2. Ambil Kunci & ID dari Brankas
         SharedPreferences prefs = requireActivity().getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
@@ -60,15 +61,27 @@ public class ProfilFragment extends Fragment {
             startActivity(intent);
         });
 
-        // 5. Perintah Klik Tombol Keluar
+        // 5. Perintah Klik Tombol Keluar dengan Konfirmasi Pop-up
         btnLogout.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.apply();
+            // Membuat dan menampilkan Pop-up Konfirmasi
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Konfirmasi Keluar")
+                    .setMessage("Apakah kamu yakin ingin keluar dari akun ini?")
+                    .setPositiveButton("Ya, Keluar", (dialog, which) -> {
+                        // Logika jika tombol "Ya" diklik (Menghapus sesi & pindah ke Login)
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.clear();
+                        editor.apply();
 
-            Intent intent = new Intent(requireActivity(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+                        Intent intent = new Intent(requireActivity(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("Batal", (dialog, which) -> {
+                        // Logika jika tombol "Batal" diklik (Tutup pop-up saja)
+                        dialog.dismiss();
+                    })
+                    .show();
         });
 
         return view;

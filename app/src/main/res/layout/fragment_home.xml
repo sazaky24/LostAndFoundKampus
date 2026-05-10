@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- HEADER SECTION -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +42,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-            <!-- SEARCH BAR DIBUNGKUS CARDVIEW BIAR MENGAMBANG -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -70,7 +68,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- STATS CARD -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +84,6 @@
                 android:paddingVertical="16dp"
                 tools:ignore="UselessLeaf">
 
-                <!-- KOLOM 1 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_total"
                     android:layout_width="0dp"
@@ -130,7 +126,6 @@
                     android:background="#EEEEEE"
                     android:layout_marginVertical="8dp"/>
 
-                <!-- KOLOM 2 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_berhasil"
                     android:layout_width="0dp"
@@ -173,7 +168,6 @@
                     android:background="#EEEEEE"
                     android:layout_marginVertical="8dp"/>
 
-                <!-- KOLOM 3 -->
                 <LinearLayout
                     android:id="@+id/btn_filter_proses"
                     android:layout_width="0dp"
@@ -213,7 +207,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- LIST SECTION -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -231,6 +224,39 @@
                 android:textColor="#212121"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_kosong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="#BDBDBD" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Pencarian tidak ditemukan"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Coba gunakan kata kunci lain"
+                android:textColor="#9E9E9E"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

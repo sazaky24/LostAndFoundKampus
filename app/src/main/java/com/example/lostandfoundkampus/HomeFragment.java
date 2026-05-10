@@ -1,9 +1,12 @@
 package com.example.lostandfoundkampus;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,13 +36,18 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvBarang;
     private BarangAdapter adapter;
 
-    // DUA LIST UNTUK SISTEM FILTER
-    private List<Laporan> listSemuaData = new ArrayList<>(); // Master data
-    private List<Laporan> listDitampilkan = new ArrayList<>(); // Data hasil saringan
+    // LIST UNTUK SISTEM FILTER
+    private List<Laporan> listSemuaData = new ArrayList<>();
+    private List<Laporan> listDitampilkan = new ArrayList<>();
 
-    // UI Filter
-    private LinearLayout btnFilterTotal, btnFilterBerhasil, btnFilterProses;
+    // UI Elements
+    private LinearLayout btnFilterTotal, btnFilterBerhasil, btnFilterProses, layoutKosong;
     private TextView tvAngkaTotal, tvAngkaBerhasil, tvAngkaProses;
+    private EditText etSearch;
+
+    // Status Filter Saat Ini
+    private String filterStatusSaatIni = "Total";
+    private String keywordPencarian = "";
 
     @Nullable
     @Override
@@ -49,22 +57,40 @@ public class HomeFragment extends Fragment {
         // Inisialisasi RecyclerView
         rvBarang = view.findViewById(R.id.rv_barang);
         rvBarang.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BarangAdapter(listDitampilkan); // Adapter menggunakan list saringan
+        adapter = new BarangAdapter(listDitampilkan);
         rvBarang.setAdapter(adapter);
 
-        // Inisialisasi UI Filter (Pastikan ID ini ada di fragment_home.xml kamu)
+        // Inisialisasi UI
         btnFilterTotal = view.findViewById(R.id.btn_filter_total);
         btnFilterBerhasil = view.findViewById(R.id.btn_filter_berhasil);
         btnFilterProses = view.findViewById(R.id.btn_filter_proses);
-
         tvAngkaTotal = view.findViewById(R.id.tv_angka_total);
         tvAngkaBerhasil = view.findViewById(R.id.tv_angka_berhasil);
         tvAngkaProses = view.findViewById(R.id.tv_angka_proses);
+        etSearch = view.findViewById(R.id.et_search);
+
+        // KODE BARU: Kenalkan Layout Pesan Kosong
+        layoutKosong = view.findViewById(R.id.layout_kosong);
 
         // Aksi ketika tombol filter diklik
-        btnFilterTotal.setOnClickListener(v -> terapkanFilter("Total"));
-        btnFilterBerhasil.setOnClickListener(v -> terapkanFilter("Temuan"));
-        btnFilterProses.setOnClickListener(v -> terapkanFilter("Hilang"));
+        btnFilterTotal.setOnClickListener(v -> terapkanFilterStatus("Total"));
+        btnFilterBerhasil.setOnClickListener(v -> terapkanFilterStatus("Temuan"));
+        btnFilterProses.setOnClickListener(v -> terapkanFilterStatus("Hilang"));
+
+        // Aksi ketika user mengetik di kolom pencarian
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                keywordPencarian = s.toString().toLowerCase().trim();
+                perbaruiTampilanList();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         ambilDataDariSupabase();
 
@@ -83,15 +109,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Laporan>> call, Response<List<Laporan>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Simpan ke Master Data
                     listSemuaData.clear();
                     listSemuaData.addAll(response.body());
 
-                    // Hitung dan tampilkan angka di atas layar
                     hitungStatistik(listSemuaData);
-
-                    // Tampilkan "Total" secara default saat aplikasi pertama kali dibuka
-                    terapkanFilter("Total");
+                    terapkanFilterStatus("Total");
                 } else {
                     Toast.makeText(getContext(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
                 }
@@ -104,22 +126,37 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void terapkanFilter(String jenisFilter) {
-        listDitampilkan.clear(); // Bersihkan layar
+    private void terapkanFilterStatus(String jenisFilter) {
+        filterStatusSaatIni = jenisFilter;
+        perbaruiTampilanList();
+    }
 
-        if (jenisFilter.equals("Total")) {
-            // Tampilkan semua data tanpa terkecuali
-            listDitampilkan.addAll(listSemuaData);
-        } else {
-            // Saring data berdasarkan status (Hilang/Temuan)
-            for (Laporan l : listSemuaData) {
-                if (jenisFilter.equalsIgnoreCase(l.status)) {
-                    listDitampilkan.add(l);
-                }
+    // FUNGSI UTAMA UNTUK MENYARING DATA
+    private void perbaruiTampilanList() {
+        listDitampilkan.clear();
+
+        for (Laporan l : listSemuaData) {
+            boolean cocokStatus = filterStatusSaatIni.equals("Total") || filterStatusSaatIni.equalsIgnoreCase(l.status);
+
+            // Ingat: Sesuaikan "l.nama_barang" dengan nama variabel di model Laporan.java milikmu
+            boolean cocokKeyword = keywordPencarian.isEmpty() ||
+                    (l.nama_barang != null && l.nama_barang.toLowerCase().contains(keywordPencarian));
+
+            if (cocokStatus && cocokKeyword) {
+                listDitampilkan.add(l);
             }
         }
 
-        // Beritahu RecyclerView untuk menggambar ulang list dengan data baru
+        // KODE BARU: Tampilkan pesan kosong jika tidak ada data yang cocok
+        if (listDitampilkan.isEmpty()) {
+            rvBarang.setVisibility(View.GONE); // Sembunyikan daftar
+            layoutKosong.setVisibility(View.VISIBLE); // Munculkan pesan kosong
+        } else {
+            rvBarang.setVisibility(View.VISIBLE); // Munculkan daftar
+            layoutKosong.setVisibility(View.GONE); // Sembunyikan pesan kosong
+        }
+
+        // Beritahu adapter
         adapter.notifyDataSetChanged();
     }
 
@@ -136,7 +173,6 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        // Tampilkan angka ke TextView
         if (tvAngkaTotal != null) tvAngkaTotal.setText(String.valueOf(total));
         if (tvAngkaBerhasil != null) tvAngkaBerhasil.setText(String.valueOf(temuan));
         if (tvAngkaProses != null) tvAngkaProses.setText(String.valueOf(hilang));
