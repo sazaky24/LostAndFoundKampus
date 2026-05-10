@@ -1,6 +1,7 @@
 package com.example.lostandfoundkampus;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.List;
 
 public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangViewHolder> {
 
     private final List<Laporan> laporanList;
+    // Ganti "uploads" dengan nama bucket yang kamu buat di Supabase Storage
+    private final String BASE_URL_STORAGE = "https://ywifcbceouecogdbytsa.supabase.co/storage/v1/object/public/uploads/";
 
     public BarangAdapter(List<Laporan> laporanList) {
         this.laporanList = laporanList;
@@ -25,7 +31,6 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         return new BarangViewHolder(view);
     }
 
-    // Menambahkan SuppressLint untuk menghilangkan warning penggabungan teks
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BarangViewHolder holder, int position) {
@@ -35,26 +40,48 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         holder.tvKategori.setText(laporan.status);
         holder.tvLokasiWaktu.setText(laporan.lokasi + " • " + laporan.created_at);
 
-        // Menentukan icon silang merah (hilang) atau centang hijau (ketemu)
-        // Berdasarkan status dari Supabase
+        // --- PERBAIKAN LOGIKA GAMBAR ---
+        String fotoUrl = laporan.foto_url;
+        final String fullPath;
+
+        // Cek apakah foto_url sudah berupa link lengkap atau hanya nama file
+        if (fotoUrl != null && !fotoUrl.isEmpty()) {
+            if (fotoUrl.startsWith("http")) {
+                fullPath = fotoUrl;
+            } else {
+                fullPath = BASE_URL_STORAGE + fotoUrl;
+            }
+
+            Glide.with(holder.itemView.getContext())
+                    .load(fullPath)
+                    .placeholder(android.R.color.darker_gray) // Tampilan saat loading
+                    .error(android.R.color.darker_gray)      // Tampilan jika link rusak
+                    .centerCrop()
+                    .into(holder.imgBarang);
+        } else {
+            // Jika foto_url null di database, set gambar default
+            fullPath = "";
+            holder.imgBarang.setImageResource(android.R.color.darker_gray);
+        }
+
+        // Icon status (Hilang/Temuan)
         if ("Temuan".equalsIgnoreCase(laporan.status)) {
             holder.imgStatus.setImageResource(android.R.drawable.checkbox_on_background);
         } else {
             holder.imgStatus.setImageResource(android.R.drawable.ic_delete);
         }
-        // Aksi ketika kotak item barang diklik
-        holder.itemView.setOnClickListener(v -> {
-            // Membuat jembatan (Intent) untuk pindah ke DetailActivity
-            android.content.Intent intent = new android.content.Intent(v.getContext(), DetailActivity.class);
 
-            // Membawa data barang ini ke halaman sebelah
+        // Intent ke DetailActivity
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
             intent.putExtra("NAMA", laporan.nama_barang);
             intent.putExtra("LOKASI", laporan.lokasi);
             intent.putExtra("STATUS", laporan.status);
             intent.putExtra("TANGGAL", laporan.created_at);
-            intent.putExtra("FOTO", laporan.foto_url);
 
-            // Berangkat!
+            // Kirim fullPath agar DetailActivity tidak perlu repot menyusun URL lagi
+            intent.putExtra("FOTO", fullPath);
+
             v.getContext().startActivity(intent);
         });
     }
@@ -64,10 +91,10 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
         return laporanList.size();
     }
 
-    // Menambahkan 'public' untuk memperbaiki warning visibility scope
     public static class BarangViewHolder extends RecyclerView.ViewHolder {
         TextView tvNama, tvKategori, tvLokasiWaktu;
         ImageView imgStatus;
+        ShapeableImageView imgBarang; // Tambahkan ini
 
         public BarangViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +102,7 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
             tvKategori = itemView.findViewById(R.id.tv_kategori);
             tvLokasiWaktu = itemView.findViewById(R.id.tv_lokasi_waktu);
             imgStatus = itemView.findViewById(R.id.img_status);
+            imgBarang = itemView.findViewById(R.id.img_barang); // Inisialisasi ID dari XML
         }
     }
 }

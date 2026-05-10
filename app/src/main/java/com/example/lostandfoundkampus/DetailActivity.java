@@ -26,21 +26,26 @@ public class DetailActivity extends AppCompatActivity {
         // Aksi tombol kembali
         btnBack.setOnClickListener(v -> finish()); // Menutup halaman ini dan kembali ke Home
 
-        // Mengambil data yang dikirim dari HomeFragment (Adapter)
         String nama = getIntent().getStringExtra("NAMA");
         String lokasi = getIntent().getStringExtra("LOKASI");
         String status = getIntent().getStringExtra("STATUS");
         String tanggal = getIntent().getStringExtra("TANGGAL");
         String fotoUrl = getIntent().getStringExtra("FOTO");
 
-        // Memasukkan data ke layar
-        tvNama.setText(nama);
-        tvLokasi.setText(lokasi);
-        tvStatus.setText(status);
+// 2. Set teks (cek null agar tidak crash)
+        tvNama.setText(nama != null ? nama : "Tanpa Nama");
+        tvLokasi.setText(lokasi != null ? lokasi : "Lokasi tidak diketahui");
+        tvStatus.setText(status != null ? status : "Status...");
 
-        // Potong jam agar hanya tampil tanggal
+// 3. PERBAIKAN TANGGAL (Penyebab utama crash)
         if (tanggal != null && tanggal.length() >= 10) {
-            tvTanggal.setText(tanggal.substring(0, 10));
+            try {
+                tvTanggal.setText(tanggal.substring(0, 10));
+            } catch (Exception e) {
+                tvTanggal.setText(tanggal); // Jika gagal potong, tampilkan aslinya saja
+            }
+        } else {
+            tvTanggal.setText(tanggal != null ? tanggal : "Tanggal tidak tersedia");
         }
 
         // Ubah warna kotak status
@@ -56,7 +61,12 @@ public class DetailActivity extends AppCompatActivity {
         if (fotoUrl != null && !fotoUrl.isEmpty()) {
             Glide.with(this)
                     .load(fotoUrl)
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_report_image)
                     .into(imgFoto);
+        } else {
+            // Jika tidak ada foto, tampilkan gambar default agar tidak crash
+            imgFoto.setImageResource(android.R.drawable.ic_menu_gallery);
         }
     }
 }
